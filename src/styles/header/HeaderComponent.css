@@ -1,0 +1,23 @@
+.header-component {
+    display: inline-flex;
+    position: fixed;
+    background-color: #424242;
+    height: 7vw;
+    min-height: 50px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.logo-button {
+    display: inline-block;
+    position: absolute;
+    border: none;
+    width: 6vw;
+    min-width: 50px;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}

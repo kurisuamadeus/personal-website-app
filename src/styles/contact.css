@@ -1,0 +1,49 @@
+.contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 80vw;
+    max-width: 800px;
+}
+
+.contact form div {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+    margin-bottom: 1vh;
+}
+
+.contact form label {
+    text-align: start;
+    margin-bottom: 1vh;
+}
+
+.contact form textarea {
+    width: 100%;
+    height: 20vh;
+}
+
+.contact form input,
+.contact form select {
+    width: var(--input-width);
+}
+
+.contact>form,
+.contact>form ::placeholder,
+.contact form select {
+    font-size: 2vh;
+}
+
+.contact form input[type="submit"] {
+    justify-self: center;
+    align-self: center;
+    margin-top: 1vw;
+    width: 80%;
+    height: 5vh;
+}

@@ -1,0 +1,67 @@
+.header-button {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    -ms-align-items: center;
+    overflow: hidden;
+    font-size: large;
+    z-index: 0;
+    border: 0;
+    width: 9vw;
+    height: 90%;
+    margin-right: 5vw;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: min(2vw, 30px);
+    text-decoration: none;
+    color: white;
+    border-radius: 5%;
+
+}
+
+.header-button:hover {
+    background-color: black;
+    filter: blur(1%);
+}
+
+.header-button:hover::before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 200%;
+    background-color: white;
+    box-shadow: 0 0 20px black;
+    animation: animate 1.5s linear infinite;
+    z-index: -2;
+    filter: blur(2%);
+}
+
+.header-button::after {
+    content: '';
+    position: absolute;
+    inset: 3%;
+    border-radius: inherit;
+    background-color: #424242;
+    z-index: -1;
+}
+
+
+.header-buttons {
+    display: inline-flex;
+    position: relative;
+    width: 100%;
+    margin-left: 35vw;
+    /* background-color: black; */
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

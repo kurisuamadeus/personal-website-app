@@ -1,0 +1,39 @@
+.profile {
+
+    text-align: start;
+}
+
+.stacks {
+    display: flex;
+    width: 70%;
+    flex-wrap: wrap;
+}
+
+.stacks img {
+    width: 5vw;
+    height: 5vw;
+    margin-right: 2vw;
+}
+
+.stacks i {
+    font-size: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 3vw;
+}
+
+.stacks a {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    -ms-align-items: center;
+    overflow: hidden;
+    font-size: large;
+    z-index: 0;
+    border: 0;
+    font-size: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 3vw;
+    text-decoration: none;
+    color: inherit;
+}

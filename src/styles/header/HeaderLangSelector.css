@@ -1,0 +1,21 @@
+.header-lang-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    margin-right: 2vw;
+}
+
+.header-lang-selector select {
+
+    width: 50%;
+    height: 50%;
+}
+
+.header-lang-selector select option {
+
+    width: 50%;
+    height: 50%;
+}

@@ -1,0 +1,17 @@
+.project-component {
+    display: block;
+    width: 25vw;
+    height: 15vw;
+    text-decoration: none;
+    color: black;
+}
+
+.project-component:hover {
+    background-color: aliceblue;
+}
+
+.project-component img {
+    width: 18vw;
+    height: 10vw;
+    margin-top: 1vh;
+}
