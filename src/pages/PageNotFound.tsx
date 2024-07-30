@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react'
 import { UpdateLanguageParams } from '../helper/LanguageDetector'
 import { useGlobalState } from '../components/GlobalStateProvider'
-import { useParams } from 'react-router-dom'
 
-function Projects() {
+function PageNotFound() {
     const globalState = useGlobalState()
-    const params = useParams()
     useEffect(() => {
-        const lang = UpdateLanguageParams(params.lang)
+        const lang = UpdateLanguageParams(String(sessionStorage.getItem('lang')))
         globalState.setState({ lang: lang })
     }, [])
     return (
-        <div>
-            project
-        </div>
+        <div>404</div>
     )
 }
 
-export default Projects
+export default PageNotFound
