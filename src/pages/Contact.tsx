@@ -1,28 +1,37 @@
 import React, { useEffect, useRef, useState } from 'react'
-import '../styles/contact.css'
+import '../styles/Contact.css'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { UpdateLanguageParams } from '../helper/LanguageDetector';
 import { useGlobalState } from '../components/GlobalStateProvider';
+import { contactFormSchema, ContactFormSchemaMessages } from '../schemas/schema';
+import FormValidationMessage from '../helper/FormValidationMessage';
 
 
 const api = axios.create({
     baseURL: 'localhost:80/getpagedata?lang=en&pagename=contact'
 })
 
+type ContactPageData = {
+    emailTitle: string,
+    nameTitle: string,
+    inquiryTitle: string,
+    inquiryValues: {
+        inquiryValue: string,
+        inquiryName: string
+    }[]
+    messageTitle: string,
+    submitButtonText: string
+    formErrorMessage: ContactFormSchemaMessages
+}
 
 
 function Contact() {
     const globalState = useGlobalState()
     const params = useParams()
-    const { register, handleSubmit } = useForm();
-    const [pageData, setPageData] = useState({
-        emailTitle: "",
-        nameTitle: "",
-        inquiryTitle: "",
-        messageTitle: ""
-    });
+    const [pageData, setPageData] = useState<ContactPageData | null>();
     const initProcess = useRef(false)
     useEffect(() => {
         const lang = UpdateLanguageParams(params.lang)
@@ -42,32 +51,49 @@ function Contact() {
             initProcess.current = true
         }
     }, [])
+    const { register, handleSubmit, formState } = useForm({
+        mode: 'onBlur',
+        resolver: yupResolver(contactFormSchema(pageData?.formErrorMessage))
+    });
     return (
         <div className=' contact content'>
             <form onSubmit={handleSubmit((data) => {
                 console.log(data);
+                axios.post("http://localhost:8080/sendmessage", data)
+                    .then(res => {
+
+                    })
+                    .catch(err => {
+                        alert(err)
+                    })
             })}>
+                <p>
+                    {FormValidationMessage([
+                        String(formState.errors.email?.message),
+                        String(formState.errors.name?.message),
+                        String(formState.errors.inquiry?.message),
+                        String(formState.errors.message?.message)
+                    ])}
+                </p>
                 <div>
-                    <label>{pageData.emailTitle}</label>
+                    <label>{pageData?.emailTitle}</label>
                     <input type='email' {...register("email")} placeholder='youremail@mail.com' />
                 </div>
                 <div>
-                    <label>{pageData.nameTitle}</label>
-                    <input type='text' {...register("name")} placeholder={pageData.nameTitle} />
+                    <label>{pageData?.nameTitle}</label>
+                    <input type='text' {...register("name")} placeholder={pageData?.nameTitle} />
                 </div>
                 <div>
-                    <label>{pageData.inquiryTitle}</label>
+                    <label>{pageData?.inquiryTitle}</label>
                     <select {...register("inquiry")}>
-                        <option>test</option>
-                        <option>test1</option>
-                        <option>test2</option>
-                        <option>test3</option>
-                        <option>test4</option>
+                        {pageData?.inquiryValues.map((value) => {
+                            return <option value={value.inquiryValue}>{value.inquiryName}</option>
+                        })}
                     </select>
                 </div>
-                <label>{pageData.messageTitle}</label>
-                <textarea {...register("message")} placeholder={pageData.messageTitle} />
-                <input type='submit' />
+                <label>{pageData?.messageTitle}</label>
+                <textarea {...register("message")} placeholder={pageData?.messageTitle} />
+                <input type='submit' value={pageData?.submitButtonText} />
             </form>
         </div>
     )

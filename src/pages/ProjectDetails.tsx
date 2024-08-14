@@ -1,0 +1,58 @@
+import React, { useEffect, useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useGlobalState } from '../components/GlobalStateProvider'
+import { UpdateLanguageParams } from '../helper/LanguageDetector'
+import axios from 'axios'
+import '../styles/ProjectDetails.css'
+
+interface ProjectData {
+    projectId: string,
+    url: string,
+    thumbnailImageUrl: string,
+    title: string,
+    data: ProjectContentData
+
+}
+interface ProjectContentData {
+    [key: string]: {
+        title: string,
+        desc: string
+    }
+}
+
+function ProjectDetails() {
+    const globalState = useGlobalState()
+    const params = useParams()
+    const [pageData, setPageData] = useState<ProjectData>();
+    const initProcess = useRef(false)
+    useEffect(() => {
+        const lang = UpdateLanguageParams(params.lang)
+        globalState.setState({ lang: lang })
+        if (!initProcess.current) {
+            axios.get(`http://localhost:8080/getproject/details?lang=${lang}&projectId=${params.projectId}`)
+                .then(res => {
+                    if (pageData != res.data.data) {
+                        setPageData(res.data.data)
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+        return () => {
+            initProcess.current = true
+        }
+    }, [])
+    return (
+        <div className='project-details content'>
+            <h1>{pageData?.data[String(params.lang)].title}</h1>
+            <iframe src={pageData?.thumbnailImageUrl} />
+            <p>{pageData?.data[String(params.lang)].desc}</p>
+            <button onClick={() => {
+                window.open(pageData?.url)
+            }}>{params.lang == "jp" ? "リンクはこちら" : "Visit"}</button>
+        </div>
+    )
+}
+
+export default ProjectDetails

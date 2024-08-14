@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import './styles/content.css'
+import './styles/Content.css'
 import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import HeaderComponent from './components/header/HeaderComponent';
 import Home from './pages/Home';
@@ -11,6 +11,7 @@ import Contact from './pages/Contact';
 import { GlobalStateProvider } from './components/GlobalStateProvider';
 import PageNotFound from './pages/PageNotFound';
 import { UpdateLanguageParams } from './helper/LanguageDetector';
+import ProjectDetails from './pages/ProjectDetails';
 
 const indexRoute = `/${UpdateLanguageParams(sessionStorage.getItem('lang') != null ? String(sessionStorage.getItem('lang')) : navigator.language)}/home`
 
@@ -29,6 +30,7 @@ function App() {
               <Route path='/:lang?/home' element={<Home />} />
               <Route path='/:lang?/profile' element={<Profile />} />
               <Route path='/:lang?/projects' element={<Projects />} />
+              <Route path='/:lang?/projects/details/:projectId' element={<ProjectDetails />} />
               <Route path='/:lang?/contact' element={<Contact />} />
               <Route path='*' element={<PageNotFound />} />
               {/* </Route> */}

@@ -39,9 +39,9 @@ function HeaderButtons() {
     return (
         <div className='header-buttons'>
             <HeaderButton label={pageData.homeTitle} destUrl='/' />
-            <HeaderButton label={pageData.profileTitle} destUrl='profile' />
-            <HeaderButton label={pageData.projectsTitle} destUrl='projects' />
-            <HeaderButton label={pageData.contactTitle} destUrl='contact' />
+            <HeaderButton label={pageData.profileTitle} destUrl={`/${lang}/profile`} />
+            <HeaderButton label={pageData.projectsTitle} destUrl={`/${lang}/projects`} />
+            <HeaderButton label={pageData.contactTitle} destUrl={`/${lang}/contact`} />
         </div>
     )
 }

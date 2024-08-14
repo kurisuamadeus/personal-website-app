@@ -3,15 +3,23 @@
     width: 25vw;
     height: 15vw;
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .project-component:hover {
     background-color: aliceblue;
+    color: black;
 }
 
 .project-component img {
     width: 18vw;
     height: 10vw;
     margin-top: 1vh;
+}
+
+.project-component iframe {
+    width: 18vw;
+    height: 10vw;
+    margin-top: 1vh;
+    pointer-events: none;
 }

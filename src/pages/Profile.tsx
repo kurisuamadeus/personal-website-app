@@ -1,17 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react'
-import '../styles/profile.css'
-import '../styles/content.css'
+import '../styles/Profile.css'
+import '../styles/Content.css'
 import { format } from 'react-string-format'
 import axios from 'axios'
 import { UpdateLanguageParams } from '../helper/LanguageDetector'
 import { useGlobalState } from '../components/GlobalStateProvider'
 import { useParams } from 'react-router-dom'
 
+type ProfileStackData = {
+    type: string,
+    contents: {
+        stackName: string,
+        icon: string
+    }[]
+}
+
 
 function Profile() {
     const globalState = useGlobalState()
     const params = useParams()
-    let stackLinkQuery = ''
+    const [stackLinkQuery, setStackLinkQuery] = useState("")
     const stackLink = 'https://www.google.com/search?q='
     const [pageData, setPageData] = useState({
         profileTitle: "",
@@ -20,6 +28,7 @@ function Profile() {
         toolsServicesTitle: "",
         iconSearchWord: ""
     })
+    const [stackData, setStackData] = useState<ProfileStackData[] | null>()
     const initProcess = useRef(false)
     useEffect(() => {
         const lang = UpdateLanguageParams(params.lang)
@@ -30,10 +39,21 @@ function Profile() {
                     console.log(res)
                     if (pageData != res.data.data.content) {
                         setPageData(res.data.data.content)
-                        stackLinkQuery = res.data.data.iconSearchWord
+                        console.log(res.data.data.content.iconSearchWord)
+                        setStackLinkQuery(res.data.data.content.iconSearchWord)
                     }
                 })
                 .catch(err => {
+                    console.log(err)
+                })
+            axios.get(`http://localhost:8080/gettoolsdata`)
+                .then((res) => {
+                    console.log(res)
+                    if (stackData != res.data.data) {
+                        setStackData(res.data.data)
+                    }
+                })
+                .catch((err) => {
                     console.log(err)
                 })
         }
@@ -67,17 +87,31 @@ function Profile() {
             <p>{pageData.profileContent}</p>
             <h1>{pageData.programmingLanguageTitle}</h1>
             <div className='stacks'>
-                <a className="devicon-html5-plain colored" href={stackLink + format(stackLinkQuery, 'html')}></a>
+                <>
+                    {
+                        stackData != null ? stackData[0].contents.map((content, x) => {
+                            return <a key={'PL' + x} className={content.icon} href={stackLink + format(stackLinkQuery, content.stackName)}></a>
+                        }) : null
+                    }
+                </>
+                {/* <a className="devicon-html5-plain colored" href={stackLink + format(stackLinkQuery, 'html')}></a>
                 <a className="devicon-css3-plain colored" href={stackLink + format(stackLinkQuery, 'css')}></a>
                 <a className="devicon-javascript-plain colored" href={stackLink + format(stackLinkQuery, 'javascript')}></a>
                 <a className="devicon-csharp-plain" href={stackLink + 'csharp'}></a>
                 <a className="devicon-go-original-wordmark colored" href={stackLink + format(stackLinkQuery, 'golang')}></a>
                 <a className="devicon-python-plain colored" href={stackLink + format(stackLinkQuery, 'python')}></a>
-                <a className="devicon-java-plain-wordmark colored" href={stackLink + format(stackLinkQuery, 'java programming language')}></a>
+                <a className="devicon-java-plain-wordmark colored" href={stackLink + format(stackLinkQuery, 'java programming language')}></a> */}
             </div>
             <h1>{pageData.toolsServicesTitle}</h1>
             <div className='stacks'>
-                <a className="devicon-unity-plain" href={stackLink + format(stackLinkQuery, 'unity engine')}></a>
+                <>
+                    {
+                        stackData != null ? stackData[1].contents.map((content, x) => {
+                            return <a key={'T' + x} className={content.icon} href={stackLink + format(stackLinkQuery, String(content.stackName))}></a>
+                        }) : null
+                    }
+                </>
+                {/* <a className="devicon-unity-plain" href={stackLink + format(stackLinkQuery, 'unity engine')}></a>
                 <a className="devicon-react-original colored" href={stackLink + format(stackLinkQuery, 'react.js')}></a>
                 <a className="devicon-nextjs-plain" href={stackLink + format(stackLinkQuery, 'next.js')}></a>
                 <a className="devicon-nodejs-plain-wordmark" href={stackLink + format(stackLinkQuery, 'node.js')}></a>
@@ -89,10 +123,9 @@ function Profile() {
                 <a className="devicon-kubernetes-plain colored" href={stackLink + format(stackLinkQuery, 'kubernetes')}></a>
                 <a className="devicon-bootstrap-plain colored" href={stackLink + format(stackLinkQuery, 'bootstrap framework')}></a>
                 <a className="devicon-photonengine-plain" href={stackLink + format(stackLinkQuery, 'photon engine')}></a>
-                <a className="devicon-amazonwebservices-plain-wordmark colored" href={stackLink + format(stackLinkQuery, 'aws')}></a>
+                <a className="devicon-amazonwebservices-plain-wordmark colored" href={stackLink + format(stackLinkQuery, 'aws')}></a> */}
             </div>
 
-            <div className='test'></div>
         </div>
     )
 }

@@ -1,0 +1,24 @@
+.project-details iframe {
+    width: 30vw;
+    height: 20vw;
+    margin-top: 1vh;
+    pointer-events: none;
+}
+
+
+
+.project-details button {
+    margin-top: 10vw;
+    margin-bottom: 10vw;
+    width: 15vw;
+    height: 5vw;
+    border-radius: 20%;
+    color: white;
+    background-color: black;
+    font-size: 2vw;
+}
+
+.project-details button:hover {
+    color: black;
+    background-color: white;
+}
