@@ -8,9 +8,6 @@ import { useGlobalState } from '../GlobalStateProvider';
 function HeaderLangSelector() {
     const [lang, setLang] = useState(sessionStorage.getItem('lang'))
     const globalState = useGlobalState();
-    useEffect(() => {
-        console.log(globalState.state.lang)
-    }, [globalState.state])
     return (
         <div className='header-lang-selector'>
             <select onChange={(e) => {

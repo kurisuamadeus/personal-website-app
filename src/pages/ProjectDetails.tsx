@@ -29,7 +29,7 @@ function ProjectDetails() {
         const lang = UpdateLanguageParams(params.lang)
         globalState.setState({ lang: lang })
         if (!initProcess.current) {
-            axios.get(`http://localhost:8080/getproject/details?lang=${lang}&projectId=${params.projectId}`)
+            axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/getproject/details?lang=${lang}&projectId=${params.projectId}`)
                 .then(res => {
                     if (pageData != res.data.data) {
                         setPageData(res.data.data)
@@ -48,9 +48,7 @@ function ProjectDetails() {
             <h1>{pageData?.data[String(params.lang)].title}</h1>
             <iframe src={pageData?.thumbnailImageUrl} />
             <p>{pageData?.data[String(params.lang)].desc}</p>
-            <button onClick={() => {
-                window.open(pageData?.url)
-            }}>{params.lang == "jp" ? "リンクはこちら" : "Visit"}</button>
+            <a href={pageData?.url} target='_blank'>{params.lang == "jp" ? "リンクはこちら" : "Visit"}</a>
         </div>
     )
 }

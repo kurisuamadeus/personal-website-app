@@ -4,7 +4,7 @@ import HeaderLangSelector from './HeaderLangSelector';
 import '../../styles/header/HeaderComponent.css'
 import { useGlobalState } from '../GlobalStateProvider';
 
-const logoUrl = '/logotest2.svg';
+const logoUrl = '/logowhite.svg';
 
 function HeaderComponent() {
 

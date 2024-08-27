@@ -24,7 +24,6 @@ export function UpdateLanguageParams(lang: string | undefined): string {
     if (lang != sessionStorage.getItem('lang')) {
         sessionStorage.setItem('lang', String(lang))
     }
-    console.log(lang)
     return String(lang)
 
 }

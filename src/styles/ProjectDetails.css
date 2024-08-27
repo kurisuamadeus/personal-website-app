@@ -1,24 +1,39 @@
 .project-details iframe {
     width: 30vw;
     height: 20vw;
-    margin-top: 1vh;
+    margin-top: 5vw;
     pointer-events: none;
 }
 
+.project-details h1 {
+    font-size: 3vw;
+}
 
+.project-details p {
+    margin-top: 3vw;
+    font-size: 2vw;
+}
 
-.project-details button {
+.project-details a {
+    display: block;
+    text-decoration: none;
     margin-top: 10vw;
     margin-bottom: 10vw;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5vw;
     width: 15vw;
     height: 5vw;
     border-radius: 20%;
     color: white;
     background-color: black;
-    font-size: 2vw;
+    font-size: 1.5vw;
+    box-shadow: 1px 1px white;
 }
 
-.project-details button:hover {
+.project-details a:hover {
     color: black;
     background-color: white;
+    border-color: black;
+    box-shadow: none;
 }

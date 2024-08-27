@@ -23,15 +23,11 @@ function ProjectShowcase() {
     useEffect(() => {
         const lang = UpdateLanguageParams(params.lang)
         if (!initProcess.current) {
-            axios.get(`http://localhost:8080/getshowcase?lang=${lang}`)
+            axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/getshowcase?lang=${lang}`)
                 .then(res => {
                     if (pageData != res.data.data) {
-                        console.log(res.data.data)
                         setPageData(res.data.data)
                     }
-                    res.data.data.forEach((e: { showcaseTitle: { [x: string]: any } }) => {
-                        console.log(e.showcaseTitle["en"])
-                    });
                 })
                 .catch(err => {
                     console.log(err)

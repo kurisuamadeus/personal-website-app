@@ -37,7 +37,7 @@ function Projects() {
         const lang = UpdateLanguageParams(params.lang)
         globalState.setState({ lang: lang })
         if (!initProcess.current) {
-            axios.get(`http://localhost:8080/getpagedata?lang=${lang}&dataname=project`)
+            axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/getpagedata?lang=${lang}&dataname=project`)
                 .then(res => {
                     if (pageData != res.data.data.content) {
                         setPageData(res.data.data.content)
@@ -46,7 +46,7 @@ function Projects() {
                 .catch(err => {
                     console.log(err)
                 })
-            axios.get(`http://localhost:8080/getproject/search?lang=${lang}&category=game`)
+            axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/getproject/search?lang=${lang}&category=game`)
                 .then(res => {
                     if (gameProjectData != res.data.data) {
                         setGameProjectData(res.data.data)
@@ -56,7 +56,7 @@ function Projects() {
                 .catch(err => {
                     console.log(err)
                 })
-            axios.get(`http://localhost:8080/getproject/search?lang=${lang}&category=webdev`)
+            axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/getproject/search?lang=${lang}&category=webdev`)
                 .then(res => {
                     if (webdevProjectData != res.data.data) {
                         setWebdevProjectData(res.data.data)

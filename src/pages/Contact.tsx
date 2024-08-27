@@ -10,9 +10,6 @@ import { contactFormSchema, ContactFormSchemaMessages } from '../schemas/schema'
 import FormValidationMessage from '../helper/FormValidationMessage';
 
 
-const api = axios.create({
-    baseURL: 'localhost:80/getpagedata?lang=en&pagename=contact'
-})
 
 type ContactPageData = {
     emailTitle: string,
@@ -37,7 +34,7 @@ function Contact() {
         const lang = UpdateLanguageParams(params.lang)
         globalState.setState({ lang: lang })
         if (!initProcess.current) {
-            axios.get(`http://localhost:8080/getpagedata?lang=${lang}&dataname=contact`)
+            axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/getpagedata?lang=${lang}&dataname=contact`)
                 .then(res => {
                     if (pageData != res.data.data.content) {
                         setPageData(res.data.data.content)
@@ -59,7 +56,7 @@ function Contact() {
         <div className=' contact content'>
             <form onSubmit={handleSubmit((data) => {
                 console.log(data);
-                axios.post("http://localhost:8080/sendmessage", data)
+                axios.post(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/sendmessage`, data)
                     .then(res => {
 
                     })
