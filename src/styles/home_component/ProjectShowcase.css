@@ -1,0 +1,27 @@
+.showcase-text {
+    display: none;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    left: 35%;
+    top: 25%;
+    width: 30%;
+    height: 50%;
+    background-color: rgba(128, 128, 128, 0.7);
+}
+
+.showcase-text p {
+    text-decoration: none;
+    color: white;
+}
+
+
+.showcase-item div iframe {
+    width: 90vw;
+    height: 30vw;
+    pointer-events: none;
+}
+
+.showcase-item :hover .showcase-text {
+    display: flex;
+}

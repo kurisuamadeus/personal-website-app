@@ -1,33 +1,46 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import './styles/content.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './styles/Content.css'
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import HeaderComponent from './components/header/HeaderComponent';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
+import { GlobalStateProvider } from './components/GlobalStateProvider';
+import PageNotFound from './pages/PageNotFound';
+import { UpdateLanguageParams } from './helper/LanguageDetector';
+import ProjectDetails from './pages/ProjectDetails';
+
+const indexRoute = `/${UpdateLanguageParams(sessionStorage.getItem('lang') != null ? String(sessionStorage.getItem('lang')) : navigator.language)}/home`
+
 
 function App() {
+
   return (
     <div className="App">
-      <HeaderComponent />
       <header className="App-header">
-        <BrowserRouter>
-          <Routes>
-            {/* <Route path="/" element={<Layout />}> */}
-            <Route index element={<Home />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="projects" element={<Projects />} />
-            <Route path="contact" element={<Contact />} />
-            {/* </Route> */}
-          </Routes>
-        </BrowserRouter>
+        <GlobalStateProvider>
+          <HeaderComponent />
+          <BrowserRouter>
+            <Routes>
+              {/* <Route path="/" element={<Layout />}> */}
+              <Route index element={<Navigate to={indexRoute} />} />
+              <Route path='/:lang?/home' element={<Home />} />
+              <Route path='/:lang?/profile' element={<Profile />} />
+              <Route path='/:lang?/projects' element={<Projects />} />
+              <Route path='/:lang?/projects/details/:projectId' element={<ProjectDetails />} />
+              <Route path='/:lang?/contact' element={<Contact />} />
+              <Route path='*' element={<PageNotFound />} />
+              {/* </Route> */}
+            </Routes>
+          </BrowserRouter>
+        </GlobalStateProvider>
         {/*
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+        Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <a
           className="App-link"

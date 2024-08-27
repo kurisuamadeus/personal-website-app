@@ -1,0 +1,14 @@
+*/node_modules/
+*/build/
+*/.git/
+*.dockerignore
+dockerfile
+*.env
+*.editorconfig
+*.git
+AUTHORS.md
+CONTRIBUTING.md
+LICENSE
+Makefile
+NOTICE
+README.md
