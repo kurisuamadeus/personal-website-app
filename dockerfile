@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm update
+
 CMD [ "npm", "start" ]
 
 ENV PORT=80

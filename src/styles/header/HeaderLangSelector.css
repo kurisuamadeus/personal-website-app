@@ -1,17 +1,24 @@
 .header-lang-selector {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
-    background-color: white;
+
     margin-right: 2vw;
 }
 
 .header-lang-selector select {
 
-    width: 50%;
-    height: 50%;
+    width: 7vw;
+    height: 7vw;
+    max-width: 100px;
+    max-height: 100px;
+    font-size: min(2vw, 25px);
+    appearance: none;
+    border-radius: 20%;
+    text-align-last: center;
+
 }
 
 .header-lang-selector select option {

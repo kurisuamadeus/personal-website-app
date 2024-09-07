@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useGlobalState } from '../components/GlobalStateProvider'
-import { UpdateLanguageParams } from '../helper/LanguageDetector'
+import { UpdateLanguageParams, ConvertLanguageCodeToOfficialCode } from '../helper/LanguageDetector'
 import axios from 'axios'
 import '../styles/ProjectDetails.css'
+import { Helmet } from 'react-helmet-async'
 
 interface ProjectData {
     projectId: string,
@@ -44,7 +45,13 @@ function ProjectDetails() {
         }
     }, [])
     return (
-        <div className='project-details content'>
+        <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className='project-details content'>
+            <Helmet>
+                <title>{pageData?.data[String(params.lang)].title}</title>
+                <meta name='description' content={pageData?.data[String(params.lang)].desc} />
+                <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+                <meta name='keywords' content={'dev, development, project, ' + pageData?.data[String(params.lang)].title} />
+            </Helmet>
             <h1>{pageData?.data[String(params.lang)].title}</h1>
             <iframe src={pageData?.thumbnailImageUrl} />
             <p>{pageData?.data[String(params.lang)].desc}</p>

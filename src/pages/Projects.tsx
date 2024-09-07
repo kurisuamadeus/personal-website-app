@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { UpdateLanguageParams } from '../helper/LanguageDetector'
+import { UpdateLanguageParams, ConvertLanguageCodeToOfficialCode } from '../helper/LanguageDetector'
 import { useGlobalState } from '../components/GlobalStateProvider'
 import { useParams } from 'react-router-dom'
 import ProjectComponent from '../components/project_component/ProjectComponent'
@@ -71,7 +71,7 @@ function Projects() {
         }
     }, [])
     return (
-        <div className='project content'>
+        <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className='project content'>
             <h2>Game</h2>
             <div className='project-list'>
                 {

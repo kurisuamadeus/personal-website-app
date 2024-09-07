@@ -45,3 +45,10 @@ export function GetLanguageFromNavigator() {
     }
 
 }
+
+export function ConvertLanguageCodeToOfficialCode(lang: string) {
+    if (lang == 'jp') {
+        return 'ja'
+    }
+    return lang
+}

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { UpdateLanguageParams } from '../helper/LanguageDetector';
+import { UpdateLanguageParams, ConvertLanguageCodeToOfficialCode } from '../helper/LanguageDetector';
 import { useGlobalState } from '../components/GlobalStateProvider';
 import { contactFormSchema, ContactFormSchemaMessages } from '../schemas/schema';
 import FormValidationMessage from '../helper/FormValidationMessage';
@@ -53,7 +53,7 @@ function Contact() {
         resolver: yupResolver(contactFormSchema(pageData?.formErrorMessage))
     });
     return (
-        <div className=' contact content'>
+        <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className=' contact content'>
             <form onSubmit={handleSubmit((data) => {
                 console.log(data);
                 axios.post(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/sendmessage`, data)

@@ -3,7 +3,7 @@ import '../styles/Profile.css'
 import '../styles/Content.css'
 import { format } from 'react-string-format'
 import axios from 'axios'
-import { UpdateLanguageParams } from '../helper/LanguageDetector'
+import { UpdateLanguageParams, ConvertLanguageCodeToOfficialCode } from '../helper/LanguageDetector'
 import { useGlobalState } from '../components/GlobalStateProvider'
 import { useParams } from 'react-router-dom'
 
@@ -62,7 +62,7 @@ function Profile() {
         }
     }, [])
     return (
-        <div className='profile content'>
+        <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className='profile content'>
             <h1>{pageData.profileTitle}</h1>
             <p>{pageData.profileContent}</p>
             <h1>{pageData.programmingLanguageTitle}</h1>

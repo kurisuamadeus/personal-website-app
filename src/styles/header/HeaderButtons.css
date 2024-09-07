@@ -14,7 +14,7 @@
     margin-bottom: 5px;
     margin-top: 5px;
     cursor: pointer;
-    font-size: min(2vw, 30px);
+    font-size: min(2vw, 20px);
     text-decoration: none;
     color: white;
     border-radius: 5%;
@@ -51,7 +51,7 @@
 .header-buttons {
     display: inline-flex;
     position: relative;
-    width: 100%;
+    width: 50vw;
     margin-left: 35vw;
     /* background-color: black; */
 }
