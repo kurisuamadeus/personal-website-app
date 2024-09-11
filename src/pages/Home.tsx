@@ -17,10 +17,11 @@ function Home() {
   return (
     <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className='home content'>
       <Helmet>
-        <title>AmadeusDev</title>
+        <title>AmadeusDev | Home</title>
         <meta name="description" content={metaDesc} />
         <meta name='keywords' content='dev, development, game, web, personal website, unity, react' />
         <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+        <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
       </Helmet>
       <ProjectShowcase />
     </div>

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import ProjectComponent from '../components/project_component/ProjectComponent'
 import axios from 'axios'
 import '../styles/Projects.css'
+import { Helmet } from 'react-helmet-async'
 
 interface ProjectData {
     projectId: string,
@@ -72,6 +73,9 @@ function Projects() {
     }, [])
     return (
         <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className='project content'>
+            <Helmet>
+                <meta name="robots" content="noindex" />
+            </Helmet>
             <h2>Game</h2>
             <div className='project-list'>
                 {

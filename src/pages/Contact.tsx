@@ -8,6 +8,7 @@ import { UpdateLanguageParams, ConvertLanguageCodeToOfficialCode } from '../help
 import { useGlobalState } from '../components/GlobalStateProvider';
 import { contactFormSchema, ContactFormSchemaMessages } from '../schemas/schema';
 import FormValidationMessage from '../helper/FormValidationMessage';
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -54,6 +55,9 @@ function Contact() {
     });
     return (
         <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className=' contact content'>
+            <Helmet>
+                <meta name="robots" content="noindex" />
+            </Helmet>
             <form onSubmit={handleSubmit((data) => {
                 console.log(data);
                 axios.post(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/sendmessage`, data)

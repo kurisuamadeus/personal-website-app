@@ -6,6 +6,7 @@ import axios from 'axios'
 import { UpdateLanguageParams, ConvertLanguageCodeToOfficialCode } from '../helper/LanguageDetector'
 import { useGlobalState } from '../components/GlobalStateProvider'
 import { useParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 
 type ProfileStackData = {
     type: string,
@@ -63,6 +64,9 @@ function Profile() {
     }, [])
     return (
         <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className='profile content'>
+            <Helmet>
+                <meta name="robots" content="noindex" />
+            </Helmet>
             <h1>{pageData.profileTitle}</h1>
             <p>{pageData.profileContent}</p>
             <h1>{pageData.programmingLanguageTitle}</h1>

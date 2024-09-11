@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { UpdateLanguageParams } from '../helper/LanguageDetector'
 import { useGlobalState } from '../components/GlobalStateProvider'
+import { Helmet } from 'react-helmet-async'
 
 function PageNotFound() {
     const globalState = useGlobalState()
@@ -9,7 +10,12 @@ function PageNotFound() {
         globalState.setState({ lang: lang })
     }, [])
     return (
-        <div>404</div>
+        <div>
+            <Helmet>
+                <meta name="robots" content="noindex" />
+            </Helmet>
+            404
+        </div>
     )
 }
 
