@@ -23,6 +23,14 @@ type ContactPageData = {
     messageTitle: string,
     submitButtonText: string
     formErrorMessage: ContactFormSchemaMessages
+    metaData: {
+        title: string
+        desc: string
+        robot: string
+        canonical: string
+        enableOG: boolean
+        keywords: string
+    }
 }
 
 
@@ -55,8 +63,14 @@ function Contact() {
     });
     return (
         <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className=' contact content'>
-            <Helmet>
-                <meta name="robots" content="noindex" />
+            <Helmet htmlAttributes={{ lang: ConvertLanguageCodeToOfficialCode(String(params.lang)) }}>
+                <title>{pageData?.metaData.title == "" || pageData == null ? "AmadeusDev | Contact" : pageData.metaData.title}</title>
+                <meta name="description" content={pageData?.metaData.desc} />
+                <meta name='keywords' content={pageData?.metaData.keywords == "" || pageData == null ? 'dev, development, game, web, personal website, unity, react' : pageData?.metaData.keywords} />
+                <meta name="robots" content={pageData?.metaData.robot} />
+                <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/${String(params.lang)}/contact` : pageData.metaData.canonical}></link>
+                <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+                <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
             </Helmet>
             <form onSubmit={handleSubmit((data) => {
                 console.log(data);

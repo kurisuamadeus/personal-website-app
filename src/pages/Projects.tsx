@@ -21,16 +21,24 @@ interface ProjectContentData {
     }
 }
 
+interface ProjectsPageData {
+    gameTitle: string,
+    webDevTitle: string,
+    metaData: {
+        title: string
+        desc: string
+        robot: string
+        canonical: string
+        enableOG: boolean
+        keywords: string
+    }
+}
+
 
 function Projects() {
     const globalState = useGlobalState()
     const params = useParams()
-    const [pageData, setPageData] = useState({
-        emailTitle: "",
-        nameTitle: "",
-        inquiryTitle: "",
-        messageTitle: ""
-    });
+    const [pageData, setPageData] = useState<ProjectsPageData | null>();
     const [gameProjectData, setGameProjectData] = useState<ProjectData[]>();
     const [webdevProjectData, setWebdevProjectData] = useState<ProjectData[]>();
     const initProcess = useRef(false)
@@ -38,7 +46,7 @@ function Projects() {
         const lang = UpdateLanguageParams(params.lang)
         globalState.setState({ lang: lang })
         if (!initProcess.current) {
-            axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/getpagedata?lang=${lang}&dataname=project`)
+            axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/getpagedata?lang=${lang}&dataname=projects`)
                 .then(res => {
                     if (pageData != res.data.data.content) {
                         setPageData(res.data.data.content)
@@ -73,10 +81,16 @@ function Projects() {
     }, [])
     return (
         <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className='project content'>
-            <Helmet>
-                <meta name="robots" content="noindex" />
+            <Helmet htmlAttributes={{ lang: ConvertLanguageCodeToOfficialCode(String(params.lang)) }}>
+                <title>{pageData?.metaData.title == "" || pageData == null ? "AmadeusDev | Projects" : pageData.metaData.title}</title>
+                <meta name="description" content={pageData?.metaData.desc} />
+                <meta name='keywords' content={pageData?.metaData.keywords == "" || pageData == null ? 'dev, development, game, web, personal website, unity, react' : pageData?.metaData.keywords} />
+                <meta name="robots" content={pageData?.metaData.robot} />
+                <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/${String(params.lang)}/projects` : pageData.metaData.canonical}></link>
+                <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+                <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
             </Helmet>
-            <h2>Game</h2>
+            <h2>{pageData?.gameTitle}</h2>
             <div className='project-list'>
                 {
                     gameProjectData ? gameProjectData.map((data) => {
@@ -84,7 +98,7 @@ function Projects() {
                     }) : null
                 }
             </div>
-            <h2>Web Development</h2>
+            <h2>{pageData?.webDevTitle}</h2>
             <div className='project-list'>
                 {
                     webdevProjectData ? webdevProjectData.map((data) => {

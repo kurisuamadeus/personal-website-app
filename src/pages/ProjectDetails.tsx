@@ -24,7 +24,7 @@ interface ProjectContentData {
 function ProjectDetails() {
     const globalState = useGlobalState()
     const params = useParams()
-    const [pageData, setPageData] = useState<ProjectData>();
+    const [pageData, setPageData] = useState<ProjectData | null>();
     const initProcess = useRef(false)
     useEffect(() => {
         const lang = UpdateLanguageParams(params.lang)
@@ -46,9 +46,10 @@ function ProjectDetails() {
     }, [])
     return (
         <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className='project-details content'>
-            <Helmet>
-                <title>AmadeusDev | {pageData?.data[String(params.lang)].title}</title>
+            <Helmet htmlAttributes={{ lang: ConvertLanguageCodeToOfficialCode(String(params.lang)) }}>
+                <title>{pageData?.data[String(params.lang)].title}</title>
                 <meta name='description' content={pageData?.data[String(params.lang)].desc} />
+                <link rel="canonical" href={document.location.href}></link>
                 <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
                 <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
                 <meta name='keywords' content={'dev, development, project, ' + pageData?.data[String(params.lang)].title} />

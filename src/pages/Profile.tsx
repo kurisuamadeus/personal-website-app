@@ -8,12 +8,28 @@ import { useGlobalState } from '../components/GlobalStateProvider'
 import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 
-type ProfileStackData = {
+interface ProfileStackData {
     type: string,
     contents: {
         stackName: string,
         icon: string
     }[]
+}
+
+interface ProfilePageData {
+    profileTitle: string,
+    profileContent: string,
+    programmingLanguageTitle: string,
+    toolsServicesTitle: string,
+    iconSearchWord: string
+    metaData: {
+        title: string
+        desc: string
+        robot: string
+        canonical: string
+        enableOG: boolean
+        keywords: string
+    }
 }
 
 
@@ -22,13 +38,7 @@ function Profile() {
     const params = useParams()
     const [stackLinkQuery, setStackLinkQuery] = useState("")
     const stackLink = 'https://www.google.com/search?q='
-    const [pageData, setPageData] = useState({
-        profileTitle: "",
-        profileContent: "",
-        programmingLanguageTitle: "",
-        toolsServicesTitle: "",
-        iconSearchWord: ""
-    })
+    const [pageData, setPageData] = useState<ProfilePageData | null>()
     const [stackData, setStackData] = useState<ProfileStackData[] | null>()
     const initProcess = useRef(false)
     useEffect(() => {
@@ -64,12 +74,18 @@ function Profile() {
     }, [])
     return (
         <div lang={ConvertLanguageCodeToOfficialCode(String(params.lang))} className='profile content'>
-            <Helmet>
-                <meta name="robots" content="noindex" />
+            <Helmet htmlAttributes={{ lang: ConvertLanguageCodeToOfficialCode(String(params.lang)) }}>
+                <title>{pageData?.metaData.title == "" || pageData == null ? "AmadeusDev | Profile" : pageData.metaData.title}</title>
+                <meta name="description" content={pageData?.metaData.desc} />
+                <meta name='keywords' content={pageData?.metaData.keywords == "" || pageData == null ? 'dev, development, game, web, personal website, unity, react' : pageData?.metaData.keywords} />
+                <meta name="robots" content={pageData?.metaData.robot} />
+                <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/${String(params.lang)}/profile` : pageData.metaData.canonical}></link>
+                <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+                <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
             </Helmet>
-            <h1>{pageData.profileTitle}</h1>
-            <p>{pageData.profileContent}</p>
-            <h1>{pageData.programmingLanguageTitle}</h1>
+            <h1>{pageData?.profileTitle}</h1>
+            <p>{pageData?.profileContent}</p>
+            <h1>{pageData?.programmingLanguageTitle}</h1>
             <div className='stacks'>
                 <>
                     {
@@ -79,7 +95,7 @@ function Profile() {
                     }
                 </>
             </div>
-            <h1>{pageData.toolsServicesTitle}</h1>
+            <h1>{pageData?.toolsServicesTitle}</h1>
             <div className='stacks'>
                 <>
                     {
