@@ -29,6 +29,10 @@ interface ProfilePageData {
         canonical: string
         enableOG: boolean
         keywords: string
+        alternateUrl: {
+            url: string,
+            lang: string
+        }[]
     }
 }
 
@@ -47,10 +51,8 @@ function Profile() {
         if (!initProcess.current) {
             axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/getpagedata?lang=${lang}&dataname=profile`)
                 .then(res => {
-                    console.log(res)
                     if (pageData != res.data.data.content) {
                         setPageData(res.data.data.content)
-                        console.log(res.data.data.content.iconSearchWord)
                         setStackLinkQuery(res.data.data.content.iconSearchWord)
                     }
                 })
@@ -59,7 +61,6 @@ function Profile() {
                 })
             axios.get(`${process.env.REACT_APP_BACKEND_DOMAIN}:${process.env.REACT_APP_BACKEND_PORT}/gettoolsdata`)
                 .then((res) => {
-                    console.log(res)
                     if (stackData != res.data.data) {
                         setStackData(res.data.data)
                     }
@@ -79,8 +80,12 @@ function Profile() {
                 <meta name="description" content={pageData?.metaData.desc} />
                 <meta name='keywords' content={pageData?.metaData.keywords == "" || pageData == null ? 'dev, development, game, web, personal website, unity, react' : pageData?.metaData.keywords} />
                 <meta name="robots" content={pageData?.metaData.robot} />
-                <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/${String(params.lang)}/profile` : pageData.metaData.canonical}></link>
-                <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+                <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/en/profile` : pageData.metaData.canonical} />
+                {
+                    pageData?.metaData.alternateUrl != undefined ? pageData?.metaData.alternateUrl.map((content, x) => {
+                        return <link key={`alternate-tag-${x}`} rel="alternate" href={content.url} hrefLang={content.lang} />
+                    }) : null
+                }
                 <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
             </Helmet>
             <h1>{pageData?.profileTitle}</h1>

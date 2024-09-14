@@ -15,6 +15,10 @@ interface HomePageData {
     canonical: string
     enableOG: boolean
     keywords: string
+    alternateUrl: {
+      url: string,
+      lang: string
+    }[]
   }
 }
 
@@ -24,6 +28,7 @@ function Home() {
   const params = useParams()
   const [pageData, setPageData] = useState<HomePageData | null>()
   const initProcess = useRef(false)
+
   useEffect(() => {
     const lang = UpdateLanguageParams(params.lang)
     globalState.setState({ lang: lang })
@@ -49,8 +54,12 @@ function Home() {
         <meta name="description" content={pageData?.metaData.desc} />
         <meta name='keywords' content={pageData?.metaData.keywords == "" || pageData == null ? 'dev, development, game, web, personal website, unity, react' : pageData?.metaData.keywords} />
         <meta name="robots" content={pageData?.metaData.robot} />
-        <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/${String(params.lang)}/home` : pageData.metaData.canonical}></link>
-        <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+        <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/en/home` : pageData.metaData.canonical} />
+        {
+          pageData?.metaData.alternateUrl != undefined ? pageData?.metaData.alternateUrl.map((content, x) => {
+            return <link key={`alternate-tag-${x}`} rel="alternate" href={content.url} hrefLang={content.lang} />
+          }) : null
+        }
         <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
       </Helmet>
       <ProjectShowcase />

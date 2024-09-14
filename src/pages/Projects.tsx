@@ -31,6 +31,10 @@ interface ProjectsPageData {
         canonical: string
         enableOG: boolean
         keywords: string
+        alternateUrl: {
+            url: string,
+            lang: string
+        }[]
     }
 }
 
@@ -59,7 +63,7 @@ function Projects() {
                 .then(res => {
                     if (gameProjectData != res.data.data) {
                         setGameProjectData(res.data.data)
-                        console.log(res.data.data)
+
                     }
                 })
                 .catch(err => {
@@ -86,15 +90,19 @@ function Projects() {
                 <meta name="description" content={pageData?.metaData.desc} />
                 <meta name='keywords' content={pageData?.metaData.keywords == "" || pageData == null ? 'dev, development, game, web, personal website, unity, react' : pageData?.metaData.keywords} />
                 <meta name="robots" content={pageData?.metaData.robot} />
-                <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/${String(params.lang)}/projects` : pageData.metaData.canonical}></link>
-                <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+                <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/en/projects` : pageData.metaData.canonical} />
+                {
+                    pageData?.metaData.alternateUrl != undefined ? pageData?.metaData.alternateUrl.map((content, x) => {
+                        return <link key={`alternate-tag-${x}`} rel="alternate" href={content.url} hrefLang={content.lang} />
+                    }) : null
+                }
                 <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
             </Helmet>
             <h2>{pageData?.gameTitle}</h2>
             <div className='project-list'>
                 {
                     gameProjectData ? gameProjectData.map((data) => {
-                        return <ProjectComponent imgUrl={data.thumbnailImageUrl} projectId={data.projectId} projectName={data.data[String(params.lang)].title} />
+                        return <ProjectComponent key={`game-project-${data.projectId}`} imgUrl={data.thumbnailImageUrl} projectId={data.projectId} projectName={data.data[String(params.lang)].title} />
                     }) : null
                 }
             </div>
@@ -102,7 +110,7 @@ function Projects() {
             <div className='project-list'>
                 {
                     webdevProjectData ? webdevProjectData.map((data) => {
-                        return <ProjectComponent imgUrl={data.thumbnailImageUrl} projectId={data.projectId} projectName={data.data[String(params.lang)].title} />
+                        return <ProjectComponent key={`game-project-${data.projectId}`} imgUrl={data.thumbnailImageUrl} projectId={data.projectId} projectName={data.data[String(params.lang)].title} />
                     }) : null
                 }
 

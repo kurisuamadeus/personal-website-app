@@ -49,8 +49,9 @@ function ProjectDetails() {
             <Helmet htmlAttributes={{ lang: ConvertLanguageCodeToOfficialCode(String(params.lang)) }}>
                 <title>{pageData?.data[String(params.lang)].title}</title>
                 <meta name='description' content={pageData?.data[String(params.lang)].desc} />
-                <link rel="canonical" href={document.location.href}></link>
-                <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+                <link rel="canonical" href={`${document.location.host}/en/projects/details/${pageData?.projectId}`}></link>
+                <link rel="alternate" href={`${document.location.host}/en/projects/details/${pageData?.projectId}`} hrefLang="en" />
+                <link rel="alternate" href={`${document.location.host}/jp/projects/details/${pageData?.projectId}`} hrefLang="ja" />
                 <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
                 <meta name='keywords' content={'dev, development, project, ' + pageData?.data[String(params.lang)].title} />
             </Helmet>

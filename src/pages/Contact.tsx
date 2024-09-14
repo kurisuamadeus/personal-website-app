@@ -30,6 +30,10 @@ type ContactPageData = {
         canonical: string
         enableOG: boolean
         keywords: string
+        alternateUrl: {
+            url: string,
+            lang: string
+        }[]
     }
 }
 
@@ -68,8 +72,12 @@ function Contact() {
                 <meta name="description" content={pageData?.metaData.desc} />
                 <meta name='keywords' content={pageData?.metaData.keywords == "" || pageData == null ? 'dev, development, game, web, personal website, unity, react' : pageData?.metaData.keywords} />
                 <meta name="robots" content={pageData?.metaData.robot} />
-                <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/${String(params.lang)}/contact` : pageData.metaData.canonical}></link>
-                <link rel="alternate" href={document.location.href} hrefLang={ConvertLanguageCodeToOfficialCode(String(params.lang))} />
+                <link rel="canonical" href={pageData?.metaData.canonical == "" || pageData == null ? `${document.location.host}/en/contact` : pageData.metaData.canonical} />
+                {
+                    pageData?.metaData.alternateUrl != undefined ? pageData?.metaData.alternateUrl.map((content, x) => {
+                        return <link key={`alternate-tag-${x}`} rel="alternate" href={content.url} hrefLang={content.lang} />
+                    }) : null
+                }
                 <meta name="language" content={ConvertLanguageCodeToOfficialCode(String(params.lang))}></meta>
             </Helmet>
             <form onSubmit={handleSubmit((data) => {
@@ -101,14 +109,14 @@ function Contact() {
                 <div>
                     <label>{pageData?.inquiryTitle}</label>
                     <select {...register("inquiry")}>
-                        {pageData?.inquiryValues.map((value) => {
-                            return <option value={value.inquiryValue}>{value.inquiryName}</option>
+                        {pageData?.inquiryValues.map((value, x) => {
+                            return <option key={`inquiry-option-${x}`} value={value.inquiryValue}>{value.inquiryName}</option>
                         })}
                     </select>
                 </div>
                 <label>{pageData?.messageTitle}</label>
                 <textarea {...register("message")} placeholder={pageData?.messageTitle} />
-                <input type='submit' value={pageData?.submitButtonText} />
+                <input type='submit' value={pageData?.submitButtonText ? pageData?.submitButtonText : ""} />
             </form>
         </div>
     )
